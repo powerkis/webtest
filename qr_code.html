@@ -49,9 +49,7 @@
     <div id="result"></div>   
    
 	<script>      
-
-       
-        var video = document.getElementById('video');
+var video = document.getElementById('video');
         var resultDiv = document.getElementById('result');
 
         // 비디오 스트림 설정
@@ -70,24 +68,21 @@
             var canvas = document.createElement('canvas');
             var context = canvas.getContext('2d');
 
-            scanView(); // 1초마다 스캔
+            setInterval(function() {
+                // 비디오에서 프레임 캡처
+                canvas.height = video.videoHeight;
+                canvas.width = video.videoWidth;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                var code = jsQR(imageData.data, canvas.width, canvas.height);
+
+                if (code) {
+					var audio = new Audio('./js/beep.mp3');
+					audio.play();
+					setQr(code.data);
+                }
+            }, 1000); // 1초마다 스캔
         }
-
-		function scanView() {
-			// 비디오에서 프레임 캡처
-			canvas.height = video.videoHeight;
-			canvas.width = video.videoWidth;
-			context.drawImage(video, 0, 0, canvas.width, canvas.height);
-			var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-			var code = jsQR(imageData.data, canvas.width, canvas.height);
-
-			if (code) {
-				var audio = new Audio('./js/beep.mp3');
-				audio.play();
-				setQr(code.data);
-			}
-			scanQRCode();
-		}
 
 		function setQr(arg) {
 			var arrPara = arg.split("?");
@@ -101,15 +96,14 @@
 				}
 			}
 
-		alert(para + " : " + para.length);
+			alert(para + " : " + para.length);
+
 			if (para.length == 47) {
 
 				var uuid			= para.substr(0, 11);
 				var mf_func			= para.substr(11, 28);
 				var item_status		= para.substr(39, 02);
 				var item_seq		= para.substr(41, 06);
-
-				alert(para + " : " + para.length);
 
 				var rtn	= false;
 				var params;
@@ -146,9 +140,8 @@
 
 			alert(err_count);
 
-			scanQRCode();
-
 		}
 	</script>
 </body>
 </html>
+
