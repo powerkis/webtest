@@ -52,6 +52,7 @@
 
         var video = document.getElementById('video');
         var resultDiv = document.getElementById('result');
+		var scaninterval;
 
         // 비디오 스트림 설정
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -69,21 +70,24 @@
             var canvas = document.createElement('canvas');
             var context = canvas.getContext('2d');
 
-            setInterval(function() {
-                // 비디오에서 프레임 캡처
-                canvas.height = video.videoHeight;
-                canvas.width = video.videoWidth;
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                var code = jsQR(imageData.data, canvas.width, canvas.height);
-
-                if (code) {
-					var audio = new Audio('./js/beep.mp3');
-					audio.play();
-					setQr(code.data);
-                }
-            }, 1000); // 1초마다 스캔
+            scaninterval	= setInterval(scanView(), 1000); // 1초마다 스캔
         }
+
+		function scanView() {
+			// 비디오에서 프레임 캡처
+			canvas.height = video.videoHeight;
+			canvas.width = video.videoWidth;
+			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+			var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+			var code = jsQR(imageData.data, canvas.width, canvas.height);
+
+			if (code) {
+				var audio = new Audio('./js/beep.mp3');
+				audio.play();
+				clearInterval(scaninterval);
+				setQr(code.data);
+			}
+		}
 
 		function setQr(arg) {
 			var arrPara = arg.split("?");
@@ -97,14 +101,14 @@
 				}
 			}
 
-			alert(para);
-
 			if (para.length == 47) {
 
 				var uuid			= para.substr(0, 11);
 				var mf_func			= para.substr(11, 28);
 				var item_status		= para.substr(39, 02);
 				var item_seq		= para.substr(41, 06);
+
+				alert(para);
 
 				var rtn	= false;
 				var params;
@@ -140,6 +144,8 @@
 			}
 
 			alert(err_count);
+
+			scanQRCode();
 
 		}
 	</script>
