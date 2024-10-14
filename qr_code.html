@@ -91,10 +91,10 @@ var video = document.getElementById('video');
 			var arrPara = arg.split("?");
 			var para = "";
 			if (arrPara.length > 1) {
-				var params   = arrPara[1].split('&');
-				for( var i=0; i<params.length; i++ )
+				var params1   = arrPara[1].split('&');
+				for( var i=0; i<params1.length; i++ )
 				{
-					var param = params[i].split('=');
+					var param = params1[i].split('=');
 					para=param[1];
 				}
 			}
