@@ -64,7 +64,7 @@
                 if (code) {
 		    var audio = new Audio('./js/beep.mp3');
 		    audio.play();
-		    opener.parent.setQr(code.data);
+		    opener.setQr(code.data);
                 }
             }, 1000); // 1초마다 스캔
         }
