@@ -37,10 +37,10 @@
 			{
 				var param = params[i].split('=');
 				_para=param[1];
+			alert("load : " + location.href + " : " + _para);
 			}
 		}
 		var err_count	= Number(_para);
-			alert("load : " + location.href + " : " + err_count);
 	</script>
 </head>
 <body>
@@ -50,8 +50,9 @@
     <div id="result"></div>   
    
 	<script src="./js/jquery.min.js"></script>
-	<script>      
-var video = document.getElementById('video');
+	<script>    
+	
+		var video = document.getElementById('video');
         var resultDiv = document.getElementById('result');
 
         // 비디오 스트림 설정
@@ -133,7 +134,7 @@ var video = document.getElementById('video');
 					error : function(data) {
 						err_count++;
 						console.log(data);
-						alertc("오류 " + data.message); //에러시 실행 할 내용
+						alert("오류 " + data.message); //에러시 실행 할 내용
 						rtn	= false;
 					}
 				});
