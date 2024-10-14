@@ -26,7 +26,16 @@
             font-weight: bold;
         }
     </style>
-	<script>
+</head>
+<body>
+
+<h1>QR 코드 스캔하기</h1>
+    <video id="video" autoplay></video>
+    <div id="result"></div>   
+   
+	<script src="./js/jquery.min.js"></script>
+	<script>    
+
 		var _para = "";
 		window.onload = function() {
 			var url = unescape(location.href);
@@ -37,20 +46,10 @@
 			{
 				var param = params[i].split('=');
 				_para=param[1];
-			alert("load : " + location.href + " : " + _para);
 			}
 		}
 		var err_count	= Number(_para);
-	</script>
-</head>
-<body>
-
-<h1>QR 코드 스캔하기</h1>
-    <video id="video" autoplay></video>
-    <div id="result"></div>   
-   
-	<script src="./js/jquery.min.js"></script>
-	<script>    
+			alert("load : " + _para + " : " + err_count);
 	
 		var video = document.getElementById('video');
         var resultDiv = document.getElementById('result');
