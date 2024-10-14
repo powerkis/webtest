@@ -123,9 +123,10 @@
 						if(data != null)    {
 							if(data.result){
 								err_count++;
-								alert("QR Scan Retry : " + err_count);
+								resultDiv.innerText	= "QR Scan Retry : " + err_count;
+//								alert("QR Scan Retry : " + err_count);
 							}else{
-								alert("QR Scan ok : " + err_count);
+								resultDiv.innerText	= "QR Scan ok : " + err_count;
 								console.log(data);
 							}
 						}
