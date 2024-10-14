@@ -103,8 +103,6 @@ var video = document.getElementById('video');
 				var mf_func			= para.substr(11, 28);
 				var item_status		= para.substr(39, 02);
 				var item_seq		= para.substr(41, 06);
-
-			alert("aaa " + para);
 				
 				var rtn	= false;
 				var params;
@@ -124,6 +122,7 @@ var video = document.getElementById('video');
 								err_count++;
 								alert("QR Scan Retry : " + err_count);
 							}else{
+								alert("QR Scan ok : " + err_count);
 								console.log(data);
 							}
 						}
