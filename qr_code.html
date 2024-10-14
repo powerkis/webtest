@@ -37,6 +37,7 @@
 	<script>    
 
 		var _para = "";
+		var err_count	= 0;
 		window.onload = function() {
 			var url = unescape(location.href);
 			var pm  = url.split('?');
@@ -44,12 +45,11 @@
 			var params   = pm[1].split('&');
 			for( var i=0; i<params.length; i++ )
 			{
-				var param = params[i].split('=');
-				_para=param[1];
+				var param	= params[i].split('=');
+				_para		= param[1];
+				err_count	= Number(_para);
 			}
 		}
-		var err_count	= Number(_para);
-			alert("load : " + _para + " : " + err_count);
 	
 		var video = document.getElementById('video');
         var resultDiv = document.getElementById('result');
@@ -141,7 +141,7 @@
 				err_count++;
 			}
 
-			alert("error : " + err_count);
+			resultDiv.innerText	= "error : " + err_count;
 
 		}
 	</script>
