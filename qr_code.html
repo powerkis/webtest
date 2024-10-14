@@ -82,7 +82,7 @@
 					var audio = new Audio('./js/beep.mp3');
 					audio.play();
 					resultDiv.innerText	= code.data;
-					window.opener.setQr(code.data);
+					window.parent.setQr(code.data);
                 }
             }, 1000); // 1초마다 스캔
         }
