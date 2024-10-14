@@ -52,7 +52,7 @@
 
         var video = document.getElementById('video');
         var resultDiv = document.getElementById('result');
-		var scaninterval;
+		var scaninterval = null;
 
         // 비디오 스트림 설정
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
