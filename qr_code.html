@@ -78,7 +78,7 @@
                 var code = jsQR(imageData.data, canvas.width, canvas.height);
 
                 if (code) {
-					var audio = new Audio('./js/beep.mp3');
+					var audio = new Audio('./js/beep.mp3');
 					audio.play();
 					setQr(code.data);
                 }
