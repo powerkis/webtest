@@ -50,9 +50,9 @@
    
 	<script>      
 
+       
         var video = document.getElementById('video');
         var resultDiv = document.getElementById('result');
-		var scaninterval = null;
 
         // 비디오 스트림 설정
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -70,11 +70,10 @@
             var canvas = document.createElement('canvas');
             var context = canvas.getContext('2d');
 
-            scaninterval	= setInterval(scanView(), 1000); // 1초마다 스캔
+            scanView(); // 1초마다 스캔
         }
 
 		function scanView() {
-			alert('aaa');
 			// 비디오에서 프레임 캡처
 			canvas.height = video.videoHeight;
 			canvas.width = video.videoWidth;
@@ -85,9 +84,9 @@
 			if (code) {
 				var audio = new Audio('./js/beep.mp3');
 				audio.play();
-				clearInterval(scaninterval);
 				setQr(code.data);
 			}
+			scanQRCode();
 		}
 
 		function setQr(arg) {
