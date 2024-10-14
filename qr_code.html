@@ -62,6 +62,8 @@
                 var code = jsQR(imageData.data, canvas.width, canvas.height);
 
                 if (code) {
+		    var audio = new Audio('./js/beep.mp3');
+		    audio.play();
                     alert ('QR 코드 내용: ' + code.data);
                 }
             }, 1000); // 1초마다 스캔
