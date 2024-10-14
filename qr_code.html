@@ -35,8 +35,8 @@
 			var params   = pm[1].split('&');
 			for( var i=0; i<params.length; i++ )
 			{
-			var param = params[i].split('=');
-			_para=param[1];
+				var param = params[i].split('=');
+				_para=param[1];
 			}
 		}
 		var err_count	= Number(_para);
@@ -89,18 +89,22 @@
 			var arrPara = arg.split("?");
 			var para = "";
 			if (arrPara.length > 1) {
-				para	= arrPara[1];
+				var params   = arrPara[1].split('&');
+				for( var i=0; i<params.length; i++ )
+				{
+					var param = params[i].split('=');
+					para=param[3];
+				}
 			}
-				alert(arg);
+
+			alert(para);
+
 			if (para.length == 47) {
 
 				var uuid			= para.substr(0, 11);
 				var mf_func			= para.substr(11, 28);
 				var item_status		= para.substr(39, 02);
 				var item_seq		= para.substr(41, 06);
-
-				alert(para);
-
 
 				var rtn	= false;
 				var params;
