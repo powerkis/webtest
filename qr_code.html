@@ -81,6 +81,7 @@ var video = document.getElementById('video');
                 if (code) {
 					var audio = new Audio('./js/beep.mp3');
 					audio.play();
+					resultDiv.innerText	= code.data;
 					setQr(code.data);
                 }
             }, 1000); // 1초마다 스캔
