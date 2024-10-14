@@ -26,8 +26,24 @@
             font-weight: bold;
         }
     </style>
+	<script>
+		var _para = "";
+		window.onload = function() {
+			var url = unescape(location.href);
+			var pm  = url.split('?');
+
+			var params   = pm[1].split('&');
+			for( var i=0; i<params.length; i++ )
+			{
+			var param = params[i].split('=');
+			_para=param[1];
+			}
+		}
+		var err_count	= Number(_para);
+	</script>
 </head>
 <body>
+
 <h1>QR 코드 스캔하기</h1>
     <video id="video" autoplay></video>
     <div id="result"></div>   
@@ -62,13 +78,66 @@
                 var code = jsQR(imageData.data, canvas.width, canvas.height);
 
                 if (code) {
-		    var audio = new Audio('./js/beep.mp3');
-		    audio.play();
-			alert(code.data);
-		    window.opener.setQr(code.data);
+					var audio = new Audio('./js/beep.mp3');
+					audio.play();
+					setQr(code.data);
                 }
             }, 1000); // 1초마다 스캔
         }
-    </script>
+
+		function setQr(arg) {
+			var arrPara = arg.split("?");
+			var para = "";
+			if (arrPara.length > 1) {
+				para	= arrPara[1];
+			}
+				alert(arg);
+			if (para.length == 47) {
+
+				var uuid			= para.substr(0, 11);
+				var mf_func			= para.substr(11, 28);
+				var item_status		= para.substr(39, 02);
+				var item_seq		= para.substr(41, 06);
+
+				alert(para);
+
+
+				var rtn	= false;
+				var params;
+				params 	 = { pt:'sam'
+							,n : para };
+
+				$.ajax({
+					type : "POST",
+					url : "http://slpshare.synology.me/microfilter/microcheck.php", //요청 할 URL
+					data : params , //넘길 파라미터
+					async: false, 
+					dataType : "json",
+					success : function(data) {
+						//통신이 정상적으로 되었을때 실행 할 내용
+						if(data != null)    {
+							if(data.result){
+								err_count++;
+								alert("QR Scan Retry : " + err_count);
+							}else{
+								console.log(data);
+							}
+						}
+					},
+					error : function(data) {
+						err_count++;
+						console.log(data);
+						alertc("오류 " + data.message); //에러시 실행 할 내용
+						rtn	= false;
+					}
+				});
+			} else {
+				err_count++;
+			}
+
+			alert(err_count);
+
+		}
+	</script>
 </body>
 </html>
