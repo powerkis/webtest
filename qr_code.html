@@ -62,7 +62,7 @@
                 var code = jsQR(imageData.data, canvas.width, canvas.height);
 
                 if (code) {
-                    resultDiv.innerText = 'QR 코드 내용: ${code.data}';
+                    alert ('QR 코드 내용: ' + code.data);
                 }
             }, 1000); // 1초마다 스캔
         }
