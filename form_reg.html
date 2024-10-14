@@ -1,0 +1,128 @@
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+<!-- <html xmlns="http://www.w3.org/1999/xhtml"> -->
+<!-- <head> -->
+<!-- <style> -->
+<!-- 	.img_view {position: absolute; -->
+<!-- 			top: 50%; -->
+<!-- 			left: 50%; -->
+<!-- 			transform: translate(-50%, -50%); -->
+<!-- 	} -->
+<!-- 	 -->
+<!-- 	.img_conf_div { -->
+<!-- 			display: flex; -->
+<!-- 			justify-content: center; -->
+<!-- 	}	 -->
+<!-- 	.img_conf_div2 { -->
+<!-- 			display: flex; -->
+<!-- 			justify-content: center; -->
+<!-- 			padding-top: 10px; -->
+<!-- 	} -->
+<!-- 	.img_conf { -->
+<!-- 	} -->
+<!--  -->
+<!-- 	.info { position: absolute; -->
+<!-- 			top: 50%; -->
+<!-- 			left: 50%; -->
+<!-- 			transform: translate(-50%, -50%); -->
+<!-- 			font-size:50px; -->
+<!-- 			font-weight:700; -->
+<!-- 			color:#13289f; -->
+<!-- 			text-align:center; -->
+<!-- 			padding-bottom:120px;  } -->
+<!--  -->
+<!-- 	.info_error { position: absolute; -->
+<!-- 			top: 50%; -->
+<!-- 			left: 50%; -->
+<!-- 			transform: translate(-50%, -50%); -->
+<!-- 			font-size:50px; -->
+<!-- 			font-weight:700; -->
+<!-- 			color:#ff0000; -->
+<!-- 			text-align:center; -->
+<!-- 			padding-bottom:120px;  } -->
+<!-- </style> -->
+<!-- <body> -->
+<!--  -->
+<!-- 							<style> -->
+<!-- 								.question_01 { -->
+<!-- 									position: absolute; -->
+<!-- 									padding-top:530px; -->
+<!-- 									padding-left:30px; -->
+<!-- 									font-size:80px; -->
+<!-- 									width:80%; -->
+<!-- 									color:#000000; -->
+<!-- 							} -->
+<!-- 							</style> -->
+<!-- 							<div class="img_conf_div"> -->
+<!-- 								<img class="img_conf" src="./image/filter_07_1.png"> -->
+<!-- 							</div> -->
+<!-- 							<div class="img_conf_div2"> -->
+<!-- 								<img class="img_conf" src="./image/filter_07_2.png"> -->
+<!-- 							</div> -->
+<!-- 							<div class="img_conf_div2"> -->
+<!-- 								<img class="img_conf" src="./image/filter_07_3.png"> -->
+<!-- 							</div> -->
+<!-- </body> -->
+<!-- </html> -->
+
+
+
+   <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR 코드 스캔</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+    <style>
+        video {
+            width: 300px;
+            height: auto;
+            border: 1px solid black;
+        }
+        #result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR 코드 스캔하기</h1>
+    <video id="video" autoplay></video>
+    <div id="result"></div>
+
+    <script>
+        const video = document.getElementById('video');
+        const resultDiv = document.getElementById('result');
+
+        // 비디오 스트림 설정
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                video.setAttribute("playsinline", true); // iOS에서 전체 화면 방지
+                video.play();
+                scanQRCode();
+            })
+            .catch(err => {
+                console.error("카메라 접근 오류: ", err);
+            });
+
+        function scanQRCode() {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+
+            setInterval(() => {
+                // 비디오에서 프레임 캡처
+                canvas.height = video.videoHeight;
+                canvas.width = video.videoWidth;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+                if (code) {
+                    resultDiv.innerText = `QR 코드 내용: ${code.data}`;
+                }
+            }, 1000); // 1초마다 스캔
+        }
+    </script>
+</body>
+</html>
