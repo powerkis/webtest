@@ -96,7 +96,6 @@ var video = document.getElementById('video');
 				}
 			}
 
-			alert(para + " : " + para.length);
 
 			if (para.length == 47) {
 
@@ -105,6 +104,8 @@ var video = document.getElementById('video');
 				var item_status		= para.substr(39, 02);
 				var item_seq		= para.substr(41, 06);
 
+			alert("aaa " + para);
+				
 				var rtn	= false;
 				var params;
 				params 	 = { pt:'sam'
